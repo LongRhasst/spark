@@ -1,0 +1,46 @@
+services:
+  mysql:
+    image: mysql:8.0
+    env_file:
+      - ./.env
+    restart: always
+    ports:
+      - "3307:3306"
+  
+  airflow-init:
+    image: my_airflow:latest
+    container_name: init
+    depends_on:
+      - mysql
+    restart: always
+    env_file:
+      - ./.env
+    entrypoint: 
+      bash -c "airflow db init && airflow users create --username admin --firstname Admin --lastname User --role Admin --email
+    
+  webserver:
+    image: my_airflow:latest
+    container_name: webserver
+    depends_on:
+      - mysql
+      - airflow-init
+    env_file:
+      - ./.env
+    ports:
+      - "8080:8080"
+    command: >
+      bash -c "airflow webserver --port 8080 --host
+
+  scheduler:
+    image: my_airflow:latest
+    container_name: scheduler
+    depends_on:
+      - webserver
+    env_file:
+      - ./.env
+    command: >
+      bash -c "airflow scheduler"
+  
+volumes:
+  mysql_data:
+    driver: local
