@@ -1,46 +1,91 @@
 services:
   mysql:
     image: mysql:8.0
+    container_name: mysql
     env_file:
       - ./.env
     restart: always
     ports:
       - "3307:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - airflow
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 20s
+      retries: 10
   
   airflow-init:
-    image: my_airflow:latest
+    image: my_airflow:1.0.0
     container_name: init
     depends_on:
-      - mysql
-    restart: always
+      mysql:
+        condition: service_healthy
+    restart: on-failure
     env_file:
       - ./.env
     entrypoint: 
-      bash -c "airflow db init && airflow users create --username admin --firstname Admin --lastname User --role Admin --email
+      - bash
+      - -c
+      - |
+        airflow db init &&
+        airflow users create \
+          --username admin \
+          --firstname Admin \
+          --lastname User \
+          --role Admin \
+          --email admin@example.com \
+          --password admin
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./plugins:/usr/local/airflow/plugins
+      - ./logs:/usr/local/airflow/logs
+    networks:
+      - airflow
     
   webserver:
-    image: my_airflow:latest
+    image: my_airflow:1.0.0
     container_name: webserver
     depends_on:
-      - mysql
-      - airflow-init
+      mysql:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
     env_file:
       - ./.env
+    command: webserver
     ports:
       - "8080:8080"
-    command: >
-      bash -c "airflow webserver --port 8080 --host
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./plugins:/usr/local/airflow/plugins
+      - ./logs:/usr/local/airflow/logs
+    networks:
+      - airflow
 
   scheduler:
-    image: my_airflow:latest
+    image: my_airflow:1.0.0
     container_name: scheduler
     depends_on:
-      - webserver
+      mysql:
+        condition: service_healthy
+      airflow-init:
+        condition: service_completed_successfully
     env_file:
       - ./.env
-    command: >
-      bash -c "airflow scheduler"
+    command: scheduler
+    volumes:
+      - ./dags:/usr/local/airflow/dags
+      - ./plugins:/usr/local/airflow/plugins
+      - ./logs:/usr/local/airflow/logs
+    networks:
+      - airflow
   
 volumes:
   mysql_data:
     driver: local
+
+networks:
+  airflow:
+    driver: bridge

@@ -12,7 +12,9 @@ services:
       - CLUSTER_NAME=test
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     env_file:
-      - ./hadoop.env
+      - ./.hadoop.env
+    networks:
+      - airflow
     
   datanode:
     image: bde2020/hadoop-datanode:2.0.0-hadoop3.2.1-java8
@@ -26,7 +28,9 @@ services:
       - SERVICE_PRECONDITION=namenode:9870
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
     env_file:
-      - ./hadoop.env
+      - ./.hadoop.env
+    networks:
+      - airflow
 
   resourcemanager:
     image: bde2020/hadoop-resourcemanager:2.0.0-hadoop3.2.1-java8
@@ -35,7 +39,9 @@ services:
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode:9864"
     env_file:
-      - ./hadoop.env
+      - ./.hadoop.env
+    networks:
+      - airflow
   
   nodemanager-1:
     image: bde2020/hadoop-nodemanager:2.0.0-hadoop3.2.1-java8
@@ -44,7 +50,9 @@ services:
     environment:
       SERVICE_PRECONDITION: "namenode:9870 datanode:9864 resourcemanager:8030"
     env_file:
-      - ./hadoop.env
+      - ./.hadoop.env
+    networks:
+      - airflow
 
   historyserver:
     image: bde2020/hadoop-historyserver:2.0.0-hadoop3.2.1-java8
@@ -57,29 +65,51 @@ services:
     volumes:
       - hadoop_historyserver_data:/hadoop/yarn/timeline
     env_file:
-      - ./hadoop.env
+      - ./.hadoop.env
+    networks:
+      - airflow
   
   spark-master:
-    image: bde2020/spark-master:3.0.0-hadoop3.2
+    image: bitnami/spark:3.5
     container_name: spark-master
     depends_on:
       - namenode
       - datanode
     ports:
-      - "8080:8080"
+      - "8081:8080"
       - "7077:7077"
     environment:
-      - INIT_DAEMON_STEP=setup_spark
+      - SPARK_MODE=master
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    networks:
+      - airflow
 
   spark-worker-1:
-    image: bde2020/spark-worker:3.0.0-hadoop3.2
+    image: bitnami/spark:3.5
     container_name: spark-worker-1
     depends_on:
       - spark-master
-    ports:
-      - "8081:8081"
     environment:
-      - "SPARK_MASTER=spark://spark-master:7077"
+      - SPARK_MODE=worker
+      - SPARK_MASTER_URL=spark://spark-master:7077
+      - SPARK_WORKER_MEMORY=1G
+      - SPARK_WORKER_CORES=1
+      - SPARK_RPC_AUTHENTICATION_ENABLED=no
+      - SPARK_RPC_ENCRYPTION_ENABLED=no
+      - SPARK_LOCAL_STORAGE_ENCRYPTION_ENABLED=no
+      - SPARK_SSL_ENABLED=no
       - CORE_CONF_fs_defaultFS=hdfs://namenode:9000
+    networks:
+      - airflow
     
+volumes:
+  hadoop_namenode_data:
+    driver: local
+  hadoop_datanode_data:
+    driver: local
+  hadoop_historyserver_data:
+    driver: local
