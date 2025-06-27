@@ -2985,3 +2985,19 @@ NameError: name 'BashOperator' is not defined
 [2025-06-27T08:28:08.244+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:28:08.244+0000] {dag.py:3089} INFO - Sync 1 DAGs
 [2025-06-27T08:28:08.275+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:28:08.275+0000] {dag.py:3947} INFO - Setting next_dagrun for spark_processing_pipeline to 2025-06-27 00:08:00+00:00, run_after=2025-06-28 00:08:00+00:00
 [2025-06-27T08:28:08.319+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dag.py took 0.227 seconds
+[2025-06-27T08:28:39.789+0000] {processor.py:161} INFO - Started process (PID=3499) to work on /opt/airflow/dags/dag.py
+[2025-06-27T08:28:39.792+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dag.py for tasks to queue
+[2025-06-27T08:28:39.797+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:28:39.796+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/dag.py
+[2025-06-27T08:28:39.852+0000] {logging_mixin.py:188} INFO - Successfully imported request_data
+[2025-06-27T08:28:39.868+0000] {processor.py:840} INFO - DAG(s) 'spark_processing_pipeline' retrieved from /opt/airflow/dags/dag.py
+[2025-06-27T08:28:39.947+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:28:39.947+0000] {dag.py:3089} INFO - Sync 1 DAGs
+[2025-06-27T08:28:39.976+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:28:39.976+0000] {dag.py:3947} INFO - Setting next_dagrun for spark_processing_pipeline to 2025-06-27 00:08:00+00:00, run_after=2025-06-28 00:08:00+00:00
+[2025-06-27T08:28:40.021+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dag.py took 0.247 seconds
+[2025-06-27T08:29:11.365+0000] {processor.py:161} INFO - Started process (PID=3519) to work on /opt/airflow/dags/dag.py
+[2025-06-27T08:29:11.366+0000] {processor.py:830} INFO - Processing file /opt/airflow/dags/dag.py for tasks to queue
+[2025-06-27T08:29:11.369+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:29:11.369+0000] {dagbag.py:545} INFO - Filling up the DagBag from /opt/airflow/dags/dag.py
+[2025-06-27T08:29:11.406+0000] {logging_mixin.py:188} INFO - Successfully imported request_data
+[2025-06-27T08:29:11.420+0000] {processor.py:840} INFO - DAG(s) 'spark_processing_pipeline' retrieved from /opt/airflow/dags/dag.py
+[2025-06-27T08:29:11.491+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:29:11.491+0000] {dag.py:3089} INFO - Sync 1 DAGs
+[2025-06-27T08:29:11.524+0000] {logging_mixin.py:188} INFO - [2025-06-27T08:29:11.523+0000] {dag.py:3947} INFO - Setting next_dagrun for spark_processing_pipeline to 2025-06-27 00:08:00+00:00, run_after=2025-06-28 00:08:00+00:00
+[2025-06-27T08:29:11.568+0000] {processor.py:183} INFO - Processing /opt/airflow/dags/dag.py took 0.212 seconds
