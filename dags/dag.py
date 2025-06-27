@@ -47,14 +47,21 @@ with DAG(
     foundation_data_path = '/opt/airflow/data/foundation'
     trusted_data_path = '/opt/airflow/data/trusted'
 
-    # For task 2, use a direct approach with command-line arguments
+    # For task 2, use YARN cluster mode
     t2 = SparkSubmitOperator(
         task_id='Structure_Data_With_Spark',
         application='/opt/airflow/include/scripts/structured_data.py',
-        conn_id='spark_default',
         verbose=True,
-        # Use standalone Spark cluster
-        conf={"spark.master": "spark://spark-master:7077"},
+        # Use YARN cluster manager via conf
+        conf={
+            'spark.master': 'yarn',
+            'spark.submit.deployMode': 'client',
+            'spark.yarn.appMasterEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.appMasterEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.queue': 'root.default'
+        },
         application_args=[raw_data_path, foundation_data_path],
         # Explicitly set the spark-submit binary path
         spark_binary='/home/airflow/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit'
@@ -63,10 +70,25 @@ with DAG(
     t3 = SparkSubmitOperator(
         task_id='Transform_Data_With_Spark', # Corrected typo and more descriptive task_id
         application='/opt/airflow/include/scripts/transform_data.py', # Updated path
-        conn_id='spark_default',
         verbose=True,
-        # Use standalone Spark cluster
-        conf={"spark.master": "spark://spark-master:7077"},
+        # Use YARN cluster manager via conf with enhanced error handling
+        conf={
+            'spark.master': 'yarn',
+            'spark.submit.deployMode': 'client',
+            'spark.yarn.appMasterEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.appMasterEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.queue': 'root.default',
+            # Add timeout and retry configurations
+            'spark.sql.adaptive.enabled': 'true',
+            'spark.sql.adaptive.coalescePartitions.enabled': 'true',
+            'spark.network.timeout': '800s',
+            'spark.executor.heartbeatInterval': '60s',
+            'spark.yarn.maxAppAttempts': '2',
+            'spark.yarn.am.maxAttempts': '2',
+            'spark.yarn.submit.waitAppCompletion': 'true'
+        },
         application_args=[foundation_data_path, trusted_data_path], # Pass the input path to the script
         # Explicitly set the spark-submit binary path
         spark_binary='/home/airflow/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit'
@@ -75,12 +97,17 @@ with DAG(
     t4 = SparkSubmitOperator(
         task_id='Save_Data_To_MySQL', # More descriptive task_id
         application='/opt/airflow/include/scripts/save.py', # Updated path
-        conn_id='spark_default',
         verbose=True,
-        # Use standalone Spark cluster and MySQL connector
+        # Use YARN cluster manager with MySQL connector via conf
+        packages='mysql:mysql-connector-java:8.0.28',
         conf={
-            "spark.master": "spark://spark-master:7077",
-            "spark.jars.packages": "mysql:mysql-connector-java:8.0.28"
+            'spark.master': 'yarn',
+            'spark.submit.deployMode': 'client',
+            'spark.yarn.appMasterEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.appMasterEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.YARN_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.executorEnv.HADOOP_CONF_DIR': '/opt/hadoop/etc/hadoop',
+            'spark.yarn.queue': 'root.default'
         },
         application_args=[trusted_data_path, 'countries'], # Pass the input path and table name
         # Explicitly set the spark-submit binary path

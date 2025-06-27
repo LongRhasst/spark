@@ -1,0 +1,219 @@
+[2025-06-27T07:15:20.112+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-06-27T07:15:20.482+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: spark_processing_pipeline.Transform_Data_With_Spark manual__2025-06-27T07:14:33.133832+00:00 [queued]>
+[2025-06-27T07:15:20.518+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: spark_processing_pipeline.Transform_Data_With_Spark manual__2025-06-27T07:14:33.133832+00:00 [queued]>
+[2025-06-27T07:15:20.520+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-06-27T07:15:20.578+0000] {taskinstance.py:2330} INFO - Executing <Task(SparkSubmitOperator): Transform_Data_With_Spark> on 2025-06-27 07:14:33.133832+00:00
+[2025-06-27T07:15:20.608+0000] {standard_task_runner.py:64} INFO - Started process 401 to run task
+[2025-06-27T07:15:20.619+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'spark_processing_pipeline', 'Transform_Data_With_Spark', 'manual__2025-06-27T07:14:33.133832+00:00', '--job-id', '16', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmpz53l26fk']
+[2025-06-27T07:15:20.627+0000] {standard_task_runner.py:91} INFO - Job 16: Subtask Transform_Data_With_Spark
+[2025-06-27T07:15:20.713+0000] {logging_mixin.py:188} WARNING - /home/***/.local/lib/python3.10/site-packages/***/settings.py:195 DeprecationWarning: The sql_alchemy_conn option in [core] has been moved to the sql_alchemy_conn option in [database] - the old setting has been used, but please update your config.
+[2025-06-27T07:15:20.826+0000] {task_command.py:426} INFO - Running <TaskInstance: spark_processing_pipeline.Transform_Data_With_Spark manual__2025-06-27T07:14:33.133832+00:00 [running]> on host b867fdf2b33e
+[2025-06-27T07:15:21.076+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='spark_processing_pipeline' AIRFLOW_CTX_TASK_ID='Transform_Data_With_Spark' AIRFLOW_CTX_EXECUTION_DATE='2025-06-27T07:14:33.133832+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-27T07:14:33.133832+00:00'
+[2025-06-27T07:15:21.078+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-06-27T07:15:21.142+0000] {base.py:84} INFO - Using connection ID 'spark_default' for task execution.
+[2025-06-27T07:15:21.144+0000] {spark_submit.py:401} INFO - Spark-Submit cmd: /home/***/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit --master yarn --conf spark.master=yarn --conf spark.submit.deployMode=client --conf spark.yarn.appMasterEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.appMasterEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.queue=root.default --name arrow-spark --verbose --queue root.default /opt/***/include/scripts/transform_data.py /opt/***/data/foundation /opt/***/data/trusted
+[2025-06-27T07:15:23.080+0000] {spark_submit.py:571} INFO - Using properties file: null
+[2025-06-27T07:15:23.223+0000] {spark_submit.py:571} INFO - Parsed arguments:
+[2025-06-27T07:15:23.224+0000] {spark_submit.py:571} INFO - master                  yarn
+[2025-06-27T07:15:23.224+0000] {spark_submit.py:571} INFO - remote                  null
+[2025-06-27T07:15:23.226+0000] {spark_submit.py:571} INFO - deployMode              client
+[2025-06-27T07:15:23.227+0000] {spark_submit.py:571} INFO - executorMemory          null
+[2025-06-27T07:15:23.227+0000] {spark_submit.py:571} INFO - executorCores           null
+[2025-06-27T07:15:23.228+0000] {spark_submit.py:571} INFO - totalExecutorCores      null
+[2025-06-27T07:15:23.229+0000] {spark_submit.py:571} INFO - propertiesFile          null
+[2025-06-27T07:15:23.230+0000] {spark_submit.py:571} INFO - driverMemory            null
+[2025-06-27T07:15:23.231+0000] {spark_submit.py:571} INFO - driverCores             null
+[2025-06-27T07:15:23.232+0000] {spark_submit.py:571} INFO - driverExtraClassPath    null
+[2025-06-27T07:15:23.233+0000] {spark_submit.py:571} INFO - driverExtraLibraryPath  null
+[2025-06-27T07:15:23.234+0000] {spark_submit.py:571} INFO - driverExtraJavaOptions  null
+[2025-06-27T07:15:23.235+0000] {spark_submit.py:571} INFO - supervise               false
+[2025-06-27T07:15:23.236+0000] {spark_submit.py:571} INFO - queue                   root.default
+[2025-06-27T07:15:23.238+0000] {spark_submit.py:571} INFO - numExecutors            null
+[2025-06-27T07:15:23.239+0000] {spark_submit.py:571} INFO - files                   null
+[2025-06-27T07:15:23.240+0000] {spark_submit.py:571} INFO - pyFiles                 null
+[2025-06-27T07:15:23.241+0000] {spark_submit.py:571} INFO - archives                null
+[2025-06-27T07:15:23.242+0000] {spark_submit.py:571} INFO - mainClass               null
+[2025-06-27T07:15:23.243+0000] {spark_submit.py:571} INFO - primaryResource         file:/opt/***/include/scripts/transform_data.py
+[2025-06-27T07:15:23.245+0000] {spark_submit.py:571} INFO - name                    arrow-spark
+[2025-06-27T07:15:23.245+0000] {spark_submit.py:571} INFO - childArgs               [/opt/***/data/foundation /opt/***/data/trusted]
+[2025-06-27T07:15:23.246+0000] {spark_submit.py:571} INFO - jars                    null
+[2025-06-27T07:15:23.247+0000] {spark_submit.py:571} INFO - packages                null
+[2025-06-27T07:15:23.248+0000] {spark_submit.py:571} INFO - packagesExclusions      null
+[2025-06-27T07:15:23.249+0000] {spark_submit.py:571} INFO - repositories            null
+[2025-06-27T07:15:23.250+0000] {spark_submit.py:571} INFO - verbose                 true
+[2025-06-27T07:15:23.250+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:23.251+0000] {spark_submit.py:571} INFO - Spark properties used, including those specified through
+[2025-06-27T07:15:23.252+0000] {spark_submit.py:571} INFO - --conf and those from the properties file null:
+[2025-06-27T07:15:23.253+0000] {spark_submit.py:571} INFO - (spark.executorEnv.HADOOP_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.254+0000] {spark_submit.py:571} INFO - (spark.executorEnv.YARN_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.254+0000] {spark_submit.py:571} INFO - (spark.master,yarn)
+[2025-06-27T07:15:23.255+0000] {spark_submit.py:571} INFO - (spark.submit.deployMode,client)
+[2025-06-27T07:15:23.256+0000] {spark_submit.py:571} INFO - (spark.yarn.appMasterEnv.HADOOP_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.257+0000] {spark_submit.py:571} INFO - (spark.yarn.appMasterEnv.YARN_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.258+0000] {spark_submit.py:571} INFO - (spark.yarn.queue,root.default)
+[2025-06-27T07:15:23.259+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:23.260+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:23.604+0000] {spark_submit.py:571} INFO - Main class:
+[2025-06-27T07:15:23.605+0000] {spark_submit.py:571} INFO - org.apache.spark.deploy.PythonRunner
+[2025-06-27T07:15:23.606+0000] {spark_submit.py:571} INFO - Arguments:
+[2025-06-27T07:15:23.607+0000] {spark_submit.py:571} INFO - file:/opt/***/include/scripts/transform_data.py
+[2025-06-27T07:15:23.608+0000] {spark_submit.py:571} INFO - null
+[2025-06-27T07:15:23.608+0000] {spark_submit.py:571} INFO - /opt/***/data/foundation
+[2025-06-27T07:15:23.609+0000] {spark_submit.py:571} INFO - /opt/***/data/trusted
+[2025-06-27T07:15:23.610+0000] {spark_submit.py:571} INFO - Spark config:
+[2025-06-27T07:15:23.611+0000] {spark_submit.py:571} INFO - (spark.app.name,arrow-spark)
+[2025-06-27T07:15:23.612+0000] {spark_submit.py:571} INFO - (spark.app.submitTime,1751008523574)
+[2025-06-27T07:15:23.613+0000] {spark_submit.py:571} INFO - (spark.executorEnv.HADOOP_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.614+0000] {spark_submit.py:571} INFO - (spark.executorEnv.YARN_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.615+0000] {spark_submit.py:571} INFO - (spark.master,yarn)
+[2025-06-27T07:15:23.616+0000] {spark_submit.py:571} INFO - (spark.submit.deployMode,client)
+[2025-06-27T07:15:23.617+0000] {spark_submit.py:571} INFO - (spark.submit.pyFiles,)
+[2025-06-27T07:15:23.618+0000] {spark_submit.py:571} INFO - (spark.yarn.appMasterEnv.HADOOP_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.619+0000] {spark_submit.py:571} INFO - (spark.yarn.appMasterEnv.YARN_CONF_DIR,/opt/hadoop/etc/hadoop)
+[2025-06-27T07:15:23.620+0000] {spark_submit.py:571} INFO - (spark.yarn.isPython,true)
+[2025-06-27T07:15:23.621+0000] {spark_submit.py:571} INFO - (spark.yarn.queue,root.default)
+[2025-06-27T07:15:23.622+0000] {spark_submit.py:571} INFO - Classpath elements:
+[2025-06-27T07:15:23.623+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:23.624+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:23.625+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:24.789+0000] {spark_submit.py:571} INFO - 🚀 Starting data transformation...
+[2025-06-27T07:15:24.790+0000] {spark_submit.py:571} INFO - 📍 Input path: /opt/***/data/foundation
+[2025-06-27T07:15:24.791+0000] {spark_submit.py:571} INFO - 📍 Output path: /opt/***/data/trusted
+[2025-06-27T07:15:24.911+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:24 INFO SparkContext: Running Spark version 3.5.1
+[2025-06-27T07:15:24.914+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:24 INFO SparkContext: OS info Linux, 6.6.87.2-microsoft-standard-WSL2, amd64
+[2025-06-27T07:15:24.914+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:24 INFO SparkContext: Java version 17.0.15
+[2025-06-27T07:15:25.001+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 WARN NativeCodeLoader: Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+[2025-06-27T07:15:25.192+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceUtils: ==============================================================
+[2025-06-27T07:15:25.194+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceUtils: No custom resources configured for spark.driver.
+[2025-06-27T07:15:25.197+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceUtils: ==============================================================
+[2025-06-27T07:15:25.198+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SparkContext: Submitted application: TransformData
+[2025-06-27T07:15:25.253+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceProfile: Default ResourceProfile created, executor resources: Map(cores -> name: cores, amount: 1, script: , vendor: , memory -> name: memory, amount: 1024, script: , vendor: , offHeap -> name: offHeap, amount: 0, script: , vendor: ), task resources: Map(cpus -> name: cpus, amount: 1.0)
+[2025-06-27T07:15:25.273+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceProfile: Limiting resource is cpus at 1 tasks per executor
+[2025-06-27T07:15:25.278+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO ResourceProfileManager: Added ResourceProfile id: 0
+[2025-06-27T07:15:25.360+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SecurityManager: Changing view acls to: ***
+[2025-06-27T07:15:25.361+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SecurityManager: Changing modify acls to: ***
+[2025-06-27T07:15:25.362+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SecurityManager: Changing view acls groups to:
+[2025-06-27T07:15:25.363+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SecurityManager: Changing modify acls groups to:
+[2025-06-27T07:15:25.364+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ***; groups with view permissions: EMPTY; users with modify permissions: ***; groups with modify permissions: EMPTY
+[2025-06-27T07:15:25.755+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO Utils: Successfully started service 'sparkDriver' on port 44447.
+[2025-06-27T07:15:25.863+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SparkEnv: Registering MapOutputTracker
+[2025-06-27T07:15:25.928+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO SparkEnv: Registering BlockManagerMaster
+[2025-06-27T07:15:25.954+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO BlockManagerMasterEndpoint: Using org.apache.spark.storage.DefaultTopologyMapper for getting topology information
+[2025-06-27T07:15:25.956+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:25 INFO BlockManagerMasterEndpoint: BlockManagerMasterEndpoint up
+[2025-06-27T07:15:26.018+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO SparkEnv: Registering BlockManagerMasterHeartbeat
+[2025-06-27T07:15:26.037+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO DiskBlockManager: Created local directory at /tmp/blockmgr-bccc9c5e-3e4c-4046-8119-03e1afde51e6
+[2025-06-27T07:15:26.054+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO MemoryStore: MemoryStore started with capacity 434.4 MiB
+[2025-06-27T07:15:26.117+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO SparkEnv: Registering OutputCommitCoordinator
+[2025-06-27T07:15:26.272+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO JettyUtils: Start Jetty 0.0.0.0:4040 for SparkUI
+[2025-06-27T07:15:26.381+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO Utils: Successfully started service 'SparkUI' on port 4040.
+[2025-06-27T07:15:26.644+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:26 INFO DefaultNoHARMFailoverProxyProvider: Connecting to ResourceManager at resourcemanager/172.18.0.3:8032
+[2025-06-27T07:15:27.213+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Configuration: resource-types.xml not found
+[2025-06-27T07:15:27.214+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO ResourceUtils: Unable to find 'resource-types.xml'.
+[2025-06-27T07:15:27.223+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Client: Verifying our application has not requested more than the maximum memory capability of the cluster (8192 MB per container)
+[2025-06-27T07:15:27.224+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Client: Will allocate AM container, with 896 MB memory including 384 MB overhead
+[2025-06-27T07:15:27.225+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Client: Setting up container launch context for our AM
+[2025-06-27T07:15:27.227+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Client: Setting up the launch environment for our AM container
+[2025-06-27T07:15:27.236+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 INFO Client: Preparing resources for our AM container
+[2025-06-27T07:15:27.276+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:27 WARN Client: Neither spark.yarn.jars nor spark.yarn.archive is set, falling back to uploading libraries under SPARK_HOME.
+[2025-06-27T07:15:30.537+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:30 INFO Client: Uploading resource file:/tmp/spark-5bbb3769-a103-4ec2-a1ba-d54175dc86df/__spark_libs__15154730000576008188.zip -> hdfs://namenode:9000/user/***/.sparkStaging/application_1751006797025_0002/__spark_libs__15154730000576008188.zip
+[2025-06-27T07:15:34.882+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:34 INFO Client: Uploading resource file:/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip -> hdfs://namenode:9000/user/***/.sparkStaging/application_1751006797025_0002/pyspark.zip
+[2025-06-27T07:15:35.344+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:35 INFO Client: Uploading resource file:/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip -> hdfs://namenode:9000/user/***/.sparkStaging/application_1751006797025_0002/py4j-0.10.9.7-src.zip
+[2025-06-27T07:15:36.062+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO Client: Uploading resource file:/tmp/spark-5bbb3769-a103-4ec2-a1ba-d54175dc86df/__spark_conf__9090118993336186666.zip -> hdfs://namenode:9000/user/***/.sparkStaging/application_1751006797025_0002/__spark_conf__.zip
+[2025-06-27T07:15:36.139+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SecurityManager: Changing view acls to: ***
+[2025-06-27T07:15:36.140+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SecurityManager: Changing modify acls to: ***
+[2025-06-27T07:15:36.142+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SecurityManager: Changing view acls groups to:
+[2025-06-27T07:15:36.143+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SecurityManager: Changing modify acls groups to:
+[2025-06-27T07:15:36.144+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SecurityManager: SecurityManager: authentication disabled; ui acls disabled; users with view permissions: ***; groups with view permissions: EMPTY; users with modify permissions: ***; groups with modify permissions: EMPTY
+[2025-06-27T07:15:36.188+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO Client: Submitting application application_1751006797025_0002 to ResourceManager
+[2025-06-27T07:15:36.440+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO Client: Deleted staging directory hdfs://namenode:9000/user/***/.sparkStaging/application_1751006797025_0002
+[2025-06-27T07:15:36.444+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 ERROR SparkContext: Error initializing SparkContext.
+[2025-06-27T07:15:36.445+0000] {spark_submit.py:571} INFO - org.apache.hadoop.yarn.exceptions.YarnException: Failed to submit application_1751006797025_0002 to YARN : Application application_1751006797025_0002 submitted by user *** to unknown queue: root.default
+[2025-06-27T07:15:36.446+0000] {spark_submit.py:571} INFO - at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.submitApplication(YarnClientImpl.java:336)
+[2025-06-27T07:15:36.446+0000] {spark_submit.py:571} INFO - at org.apache.spark.deploy.yarn.Client.submitApplication(Client.scala:220)
+[2025-06-27T07:15:36.447+0000] {spark_submit.py:571} INFO - at org.apache.spark.scheduler.cluster.YarnClientSchedulerBackend.start(YarnClientSchedulerBackend.scala:62)
+[2025-06-27T07:15:36.448+0000] {spark_submit.py:571} INFO - at org.apache.spark.scheduler.TaskSchedulerImpl.start(TaskSchedulerImpl.scala:235)
+[2025-06-27T07:15:36.449+0000] {spark_submit.py:571} INFO - at org.apache.spark.SparkContext.<init>(SparkContext.scala:604)
+[2025-06-27T07:15:36.450+0000] {spark_submit.py:571} INFO - at org.apache.spark.api.java.JavaSparkContext.<init>(JavaSparkContext.scala:58)
+[2025-06-27T07:15:36.451+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+[2025-06-27T07:15:36.452+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+[2025-06-27T07:15:36.453+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+[2025-06-27T07:15:36.454+0000] {spark_submit.py:571} INFO - at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+[2025-06-27T07:15:36.455+0000] {spark_submit.py:571} INFO - at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
+[2025-06-27T07:15:36.456+0000] {spark_submit.py:571} INFO - at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:247)
+[2025-06-27T07:15:36.457+0000] {spark_submit.py:571} INFO - at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+[2025-06-27T07:15:36.458+0000] {spark_submit.py:571} INFO - at py4j.Gateway.invoke(Gateway.java:238)
+[2025-06-27T07:15:36.459+0000] {spark_submit.py:571} INFO - at py4j.commands.ConstructorCommand.invokeConstructor(ConstructorCommand.java:80)
+[2025-06-27T07:15:36.460+0000] {spark_submit.py:571} INFO - at py4j.commands.ConstructorCommand.execute(ConstructorCommand.java:69)
+[2025-06-27T07:15:36.461+0000] {spark_submit.py:571} INFO - at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+[2025-06-27T07:15:36.462+0000] {spark_submit.py:571} INFO - at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+[2025-06-27T07:15:36.463+0000] {spark_submit.py:571} INFO - at java.base/java.lang.Thread.run(Thread.java:840)
+[2025-06-27T07:15:36.464+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SparkContext: SparkContext is stopping with exitCode 0.
+[2025-06-27T07:15:36.468+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SparkUI: Stopped Spark web UI at http://b867fdf2b33e:4040
+[2025-06-27T07:15:36.483+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 WARN YarnSchedulerBackend$YarnSchedulerEndpoint: Attempted to send shutdown message before the AM has registered!
+[2025-06-27T07:15:36.493+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 WARN YarnSchedulerBackend$YarnSchedulerEndpoint: Attempted to request executors before the AM has registered!
+[2025-06-27T07:15:36.499+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO YarnClientSchedulerBackend: Shutting down all executors
+[2025-06-27T07:15:36.507+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO YarnSchedulerBackend$YarnDriverEndpoint: Asking each executor to shut down
+[2025-06-27T07:15:36.512+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO YarnClientSchedulerBackend: YARN client scheduler backend Stopped
+[2025-06-27T07:15:36.567+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO MapOutputTrackerMasterEndpoint: MapOutputTrackerMasterEndpoint stopped!
+[2025-06-27T07:15:36.596+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO MemoryStore: MemoryStore cleared
+[2025-06-27T07:15:36.598+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO BlockManager: BlockManager stopped
+[2025-06-27T07:15:36.611+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO BlockManagerMaster: BlockManagerMaster stopped
+[2025-06-27T07:15:36.614+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 WARN MetricsSystem: Stopping a MetricsSystem that is not running
+[2025-06-27T07:15:36.617+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO OutputCommitCoordinator$OutputCommitCoordinatorEndpoint: OutputCommitCoordinator stopped!
+[2025-06-27T07:15:36.642+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO SparkContext: Successfully stopped SparkContext
+[2025-06-27T07:15:36.643+0000] {spark_submit.py:571} INFO - Traceback (most recent call last):
+[2025-06-27T07:15:36.644+0000] {spark_submit.py:571} INFO - File "/opt/***/include/scripts/transform_data.py", line 170, in <module>
+[2025-06-27T07:15:36.648+0000] {spark_submit.py:571} INFO - transform_data(input_path, output_path)
+[2025-06-27T07:15:36.649+0000] {spark_submit.py:571} INFO - File "/opt/***/include/scripts/transform_data.py", line 90, in transform_data
+[2025-06-27T07:15:36.652+0000] {spark_submit.py:571} INFO - .getOrCreate()
+[2025-06-27T07:15:36.653+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip/pyspark/sql/session.py", line 497, in getOrCreate
+[2025-06-27T07:15:36.654+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip/pyspark/context.py", line 515, in getOrCreate
+[2025-06-27T07:15:36.657+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip/pyspark/context.py", line 203, in __init__
+[2025-06-27T07:15:36.658+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip/pyspark/context.py", line 296, in _do_init
+[2025-06-27T07:15:36.660+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/pyspark.zip/pyspark/context.py", line 421, in _initialize_context
+[2025-06-27T07:15:36.661+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/java_gateway.py", line 1587, in __call__
+[2025-06-27T07:15:36.663+0000] {spark_submit.py:571} INFO - File "/home/***/.local/lib/python3.10/site-packages/pyspark/python/lib/py4j-0.10.9.7-src.zip/py4j/protocol.py", line 326, in get_return_value
+[2025-06-27T07:15:36.665+0000] {spark_submit.py:571} INFO - py4j.protocol.Py4JJavaError: An error occurred while calling None.org.apache.spark.api.java.JavaSparkContext.
+[2025-06-27T07:15:36.665+0000] {spark_submit.py:571} INFO - : org.apache.hadoop.yarn.exceptions.YarnException: Failed to submit application_1751006797025_0002 to YARN : Application application_1751006797025_0002 submitted by user *** to unknown queue: root.default
+[2025-06-27T07:15:36.666+0000] {spark_submit.py:571} INFO - at org.apache.hadoop.yarn.client.api.impl.YarnClientImpl.submitApplication(YarnClientImpl.java:336)
+[2025-06-27T07:15:36.667+0000] {spark_submit.py:571} INFO - at org.apache.spark.deploy.yarn.Client.submitApplication(Client.scala:220)
+[2025-06-27T07:15:36.668+0000] {spark_submit.py:571} INFO - at org.apache.spark.scheduler.cluster.YarnClientSchedulerBackend.start(YarnClientSchedulerBackend.scala:62)
+[2025-06-27T07:15:36.668+0000] {spark_submit.py:571} INFO - at org.apache.spark.scheduler.TaskSchedulerImpl.start(TaskSchedulerImpl.scala:235)
+[2025-06-27T07:15:36.669+0000] {spark_submit.py:571} INFO - at org.apache.spark.SparkContext.<init>(SparkContext.scala:604)
+[2025-06-27T07:15:36.670+0000] {spark_submit.py:571} INFO - at org.apache.spark.api.java.JavaSparkContext.<init>(JavaSparkContext.scala:58)
+[2025-06-27T07:15:36.671+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance0(Native Method)
+[2025-06-27T07:15:36.671+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.NativeConstructorAccessorImpl.newInstance(NativeConstructorAccessorImpl.java:77)
+[2025-06-27T07:15:36.672+0000] {spark_submit.py:571} INFO - at java.base/jdk.internal.reflect.DelegatingConstructorAccessorImpl.newInstance(DelegatingConstructorAccessorImpl.java:45)
+[2025-06-27T07:15:36.673+0000] {spark_submit.py:571} INFO - at java.base/java.lang.reflect.Constructor.newInstanceWithCaller(Constructor.java:500)
+[2025-06-27T07:15:36.673+0000] {spark_submit.py:571} INFO - at java.base/java.lang.reflect.Constructor.newInstance(Constructor.java:481)
+[2025-06-27T07:15:36.674+0000] {spark_submit.py:571} INFO - at py4j.reflection.MethodInvoker.invoke(MethodInvoker.java:247)
+[2025-06-27T07:15:36.674+0000] {spark_submit.py:571} INFO - at py4j.reflection.ReflectionEngine.invoke(ReflectionEngine.java:374)
+[2025-06-27T07:15:36.675+0000] {spark_submit.py:571} INFO - at py4j.Gateway.invoke(Gateway.java:238)
+[2025-06-27T07:15:36.676+0000] {spark_submit.py:571} INFO - at py4j.commands.ConstructorCommand.invokeConstructor(ConstructorCommand.java:80)
+[2025-06-27T07:15:36.676+0000] {spark_submit.py:571} INFO - at py4j.commands.ConstructorCommand.execute(ConstructorCommand.java:69)
+[2025-06-27T07:15:36.677+0000] {spark_submit.py:571} INFO - at py4j.ClientServerConnection.waitForCommands(ClientServerConnection.java:182)
+[2025-06-27T07:15:36.678+0000] {spark_submit.py:571} INFO - at py4j.ClientServerConnection.run(ClientServerConnection.java:106)
+[2025-06-27T07:15:36.679+0000] {spark_submit.py:571} INFO - at java.base/java.lang.Thread.run(Thread.java:840)
+[2025-06-27T07:15:36.680+0000] {spark_submit.py:571} INFO - 
+[2025-06-27T07:15:36.744+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO ShutdownHookManager: Shutdown hook called
+[2025-06-27T07:15:36.745+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO ShutdownHookManager: Deleting directory /tmp/spark-e562c862-c026-4a70-98ee-d01cf112393d
+[2025-06-27T07:15:36.753+0000] {spark_submit.py:571} INFO - 25/06/27 07:15:36 INFO ShutdownHookManager: Deleting directory /tmp/spark-5bbb3769-a103-4ec2-a1ba-d54175dc86df
+[2025-06-27T07:15:36.892+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-06-27T07:15:36.934+0000] {taskinstance.py:2905} ERROR - Task failed with exception
+Traceback (most recent call last):
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 465, in _execute_task
+    result = _execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/taskinstance.py", line 432, in _execute_callable
+    return execute_callable(context=context, **execute_callable_kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/models/baseoperator.py", line 401, in wrapper
+    return func(self, *args, **kwargs)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/apache/spark/operators/spark_submit.py", line 174, in execute
+    self._hook.submit(self.application)
+  File "/home/airflow/.local/lib/python3.10/site-packages/airflow/providers/apache/spark/hooks/spark_submit.py", line 502, in submit
+    raise AirflowException(
+airflow.exceptions.AirflowException: Cannot execute: /home/***/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit --master yarn --conf spark.master=yarn --conf spark.submit.deployMode=client --conf spark.yarn.appMasterEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.appMasterEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.queue=root.default --name arrow-spark --verbose --queue root.default /opt/***/include/scripts/transform_data.py /opt/***/data/foundation /opt/***/data/trusted. Error code is: 1.
+[2025-06-27T07:15:36.940+0000] {taskinstance.py:1206} INFO - Marking task as UP_FOR_RETRY. dag_id=spark_processing_pipeline, task_id=Transform_Data_With_Spark, run_id=manual__2025-06-27T07:14:33.133832+00:00, execution_date=20250627T071433, start_date=20250627T071520, end_date=20250627T071536
+[2025-06-27T07:15:36.970+0000] {standard_task_runner.py:110} ERROR - Failed to execute job 16 for task Transform_Data_With_Spark (Cannot execute: /home/***/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit --master yarn --conf spark.master=yarn --conf spark.submit.deployMode=client --conf spark.yarn.appMasterEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.appMasterEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.YARN_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.executorEnv.HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop --conf spark.yarn.queue=root.default --name arrow-spark --verbose --queue root.default /opt/***/include/scripts/transform_data.py /opt/***/data/foundation /opt/***/data/trusted. Error code is: 1.; 401)
+[2025-06-27T07:15:36.992+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 1
+[2025-06-27T07:15:37.053+0000] {taskinstance.py:3503} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2025-06-27T07:15:37.056+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
