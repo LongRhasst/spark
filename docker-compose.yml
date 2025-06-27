@@ -38,9 +38,11 @@ services:
           --email admin@example.com \
           --password admin
     volumes:
-      - ./dags:/usr/local/airflow/dags
-      - ./plugins:/usr/local/airflow/plugins
-      - ./logs:/usr/local/airflow/logs
+      - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
+      - ./logs:/opt/airflow/logs
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
     networks:
       - airflow
     
@@ -54,13 +56,17 @@ services:
         condition: service_completed_successfully
     env_file:
       - ./.env
-    command: webserver
+    environment:
+      - SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
+    command: airflow webserver
     ports:
       - "8080:8080"
     volumes:
-      - ./dags:/usr/local/airflow/dags
-      - ./plugins:/usr/local/airflow/plugins
-      - ./logs:/usr/local/airflow/logs
+      - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
+      - ./logs:/opt/airflow/logs
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
     networks:
       - airflow
 
@@ -74,11 +80,15 @@ services:
         condition: service_completed_successfully
     env_file:
       - ./.env
-    command: scheduler
+    environment:
+      - SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
+    command: airflow scheduler
     volumes:
-      - ./dags:/usr/local/airflow/dags
-      - ./plugins:/usr/local/airflow/plugins
-      - ./logs:/usr/local/airflow/logs
+      - ./dags:/opt/airflow/dags
+      - ./plugins:/opt/airflow/plugins
+      - ./logs:/opt/airflow/logs
+      - ./include:/opt/airflow/include
+      - ./data:/opt/airflow/data
     networks:
       - airflow
   

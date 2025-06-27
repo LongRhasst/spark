@@ -10,7 +10,7 @@ def request_data(url):
     except requests.exceptions.RequestException as e:
         return f"Request failed: {e}"
     
-    raw_dir = '/usr/local/airflow/data/raw'
+    raw_dir = '/opt/airflow/data/raw'
     os.makedirs(raw_dir, exist_ok=True)  # Tạo thư mục nếu chưa có
 
     path = os.path.join(raw_dir, 'raw.json')

@@ -1,0 +1,18 @@
+[2025-06-27T04:33:21.210+0000] {local_task_job_runner.py:120} INFO - ::group::Pre task execution logs
+[2025-06-27T04:33:21.257+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: spark_processing_pipeline.Ingest_Data_From_API manual__2025-06-27T04:33:19.078517+00:00 [queued]>
+[2025-06-27T04:33:21.264+0000] {taskinstance.py:2076} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: spark_processing_pipeline.Ingest_Data_From_API manual__2025-06-27T04:33:19.078517+00:00 [queued]>
+[2025-06-27T04:33:21.264+0000] {taskinstance.py:2306} INFO - Starting attempt 1 of 2
+[2025-06-27T04:33:21.500+0000] {taskinstance.py:2330} INFO - Executing <Task(PythonOperator): Ingest_Data_From_API> on 2025-06-27 04:33:19.078517+00:00
+[2025-06-27T04:33:21.505+0000] {standard_task_runner.py:64} INFO - Started process 211 to run task
+[2025-06-27T04:33:21.510+0000] {standard_task_runner.py:90} INFO - Running: ['***', 'tasks', 'run', 'spark_processing_pipeline', 'Ingest_Data_From_API', 'manual__2025-06-27T04:33:19.078517+00:00', '--job-id', '7', '--raw', '--subdir', 'DAGS_FOLDER/dag.py', '--cfg-path', '/tmp/tmp20a_63t1']
+[2025-06-27T04:33:21.513+0000] {standard_task_runner.py:91} INFO - Job 7: Subtask Ingest_Data_From_API
+[2025-06-27T04:33:21.669+0000] {task_command.py:426} INFO - Running <TaskInstance: spark_processing_pipeline.Ingest_Data_From_API manual__2025-06-27T04:33:19.078517+00:00 [running]> on host 3b2681f5d151
+[2025-06-27T04:33:21.891+0000] {taskinstance.py:2648} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='spark_processing_pipeline' AIRFLOW_CTX_TASK_ID='Ingest_Data_From_API' AIRFLOW_CTX_EXECUTION_DATE='2025-06-27T04:33:19.078517+00:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2025-06-27T04:33:19.078517+00:00'
+[2025-06-27T04:33:21.892+0000] {taskinstance.py:430} INFO - ::endgroup::
+[2025-06-27T04:33:24.504+0000] {logging_mixin.py:188} INFO - ✅ Data saved to /opt/***/data/raw/raw.json
+[2025-06-27T04:33:24.507+0000] {python.py:237} INFO - Done. Returned value was: Success: saved 195 records.
+[2025-06-27T04:33:24.507+0000] {taskinstance.py:441} INFO - ::group::Post task execution logs
+[2025-06-27T04:33:24.594+0000] {taskinstance.py:1206} INFO - Marking task as SUCCESS. dag_id=spark_processing_pipeline, task_id=Ingest_Data_From_API, run_id=manual__2025-06-27T04:33:19.078517+00:00, execution_date=20250627T043319, start_date=20250627T043321, end_date=20250627T043324
+[2025-06-27T04:33:24.652+0000] {local_task_job_runner.py:243} INFO - Task exited with return code 0
+[2025-06-27T04:33:24.699+0000] {taskinstance.py:3503} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2025-06-27T04:33:24.726+0000] {local_task_job_runner.py:222} INFO - ::endgroup::
