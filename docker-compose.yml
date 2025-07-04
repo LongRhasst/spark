@@ -7,14 +7,15 @@ services:
     restart: always
     ports:
       - "3307:3306"
-    volumes:
-      - mysql_data:/var/lib/mysql
     networks:
       - airflow
+    command: --max-connections=200 --wait-timeout=28800 --interactive-timeout=28800
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
       timeout: 20s
       retries: 10
+      interval: 30s
+      start_period: 30s
   
   airflow-init:
     image: my_airflow:1.0.0
@@ -25,15 +26,11 @@ services:
     restart: on-failure
     env_file:
       - ./.env
-      - ./.hadoop.env
-    environment:
-      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-      - YARN_CONF_DIR=/opt/hadoop/etc/hadoop
     entrypoint: 
       - bash
       - -c
       - |
-        airflow db init &&
+        airflow db migrate &&
         airflow users create \
           --username admin \
           --firstname Admin \
@@ -47,7 +44,6 @@ services:
       - ./logs:/opt/airflow/logs
       - ./include:/opt/airflow/include
       - ./data:/opt/airflow/data
-      - ./hadoop-config:/opt/hadoop/etc/hadoop
     networks:
       - airflow
     
@@ -61,14 +57,12 @@ services:
         condition: service_completed_successfully
     env_file:
       - ./.env
-      - ./.hadoop.env
     environment:
-      - SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
-      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-      - YARN_CONF_DIR=/opt/hadoop/etc/hadoop
-      - AIRFLOW__SPARK__SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
-      - AIRFLOW__SPARK__SPARK_BINARY=/home/airflow/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit
-      - JAVA_HOME=/usr/lib/jvm/default-java
+      - SPARK_HOME=/opt/bitnami/spark
+      - AIRFLOW__SPARK__SPARK_HOME=/opt/bitnami/spark
+      - AIRFLOW__SPARK__SPARK_BINARY=/opt/bitnami/spark/bin/spark-submit
+      - JAVA_HOME=/opt/bitnami/java
+      - LD_LIBRARY_PATH=/opt/bitnami/common/lib
     command: airflow webserver
     ports:
       - "8080:8080"
@@ -78,7 +72,9 @@ services:
       - ./logs:/opt/airflow/logs
       - ./include:/opt/airflow/include
       - ./data:/opt/airflow/data
-      - ./hadoop-config:/opt/hadoop/etc/hadoop
+      - spark-binaries:/opt/bitnami/spark
+      - spark-java:/opt/bitnami/java
+      - spark-common:/opt/bitnami/common
     networks:
       - airflow
     restart: unless-stopped
@@ -98,14 +94,12 @@ services:
         condition: service_completed_successfully
     env_file:
       - ./.env
-      - ./.hadoop.env
     environment:
-      - SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
-      - HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
-      - YARN_CONF_DIR=/opt/hadoop/etc/hadoop
-      - AIRFLOW__SPARK__SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
-      - AIRFLOW__SPARK__SPARK_BINARY=/home/airflow/.local/lib/python3.10/site-packages/pyspark/bin/spark-submit
-      - JAVA_HOME=/usr/lib/jvm/default-java
+      - SPARK_HOME=/opt/bitnami/spark
+      - AIRFLOW__SPARK__SPARK_HOME=/opt/bitnami/spark
+      - AIRFLOW__SPARK__SPARK_BINARY=/opt/bitnami/spark/bin/spark-submit
+      - JAVA_HOME=/opt/bitnami/java
+      - LD_LIBRARY_PATH=/opt/bitnami/common/lib
     command: airflow scheduler
     volumes:
       - ./dags:/opt/airflow/dags
@@ -113,15 +107,21 @@ services:
       - ./logs:/opt/airflow/logs
       - ./include:/opt/airflow/include
       - ./data:/opt/airflow/data
-      - ./hadoop-config:/opt/hadoop/etc/hadoop
+      - spark-binaries:/opt/bitnami/spark
+      - spark-java:/opt/bitnami/java
+      - spark-common:/opt/bitnami/common
     networks:
       - airflow
     restart: unless-stopped
   
-volumes:
-  mysql_data:
-    driver: local
-
 networks:
   airflow:
     driver: bridge
+
+volumes:
+  spark-binaries:
+    driver: local
+  spark-java:
+    driver: local
+  spark-common:
+    driver: local

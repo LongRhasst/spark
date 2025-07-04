@@ -1,134 +1,105 @@
 from pyspark.sql import SparkSession
 import sys
 import os
+import time
 
-def check_environment():
-    """Check if required environment variables and paths are available"""
-    print("🔍 Checking environment...")
-    
-    # Check Java
-    java_home = os.environ.get('JAVA_HOME')
-    if java_home:
-        print(f"✅ JAVA_HOME: {java_home}")
-    else:
-        print("⚠️  JAVA_HOME not set")
-    
-    # Check Spark
-    spark_home = os.environ.get('SPARK_HOME')
-    if spark_home:
-        print(f"✅ SPARK_HOME: {spark_home}")
-    else:
-        print("⚠️  SPARK_HOME not set")
-    
-    # Check Python path
-    print(f"🐍 Python executable: {sys.executable}")
-    print(f"📁 Current working directory: {os.getcwd()}")
-    
-    return True
-
-def structed_data(input_path, output_path):
+def structure_data(input_path, output_path):
     spark = None
     try:
-        # Check if we're in a Docker/distributed environment
-        is_distributed = os.environ.get('YARN_CONF_DIR') or os.environ.get('HADOOP_CONF_DIR')
+        print("🚀 Starting structured data processing...")
+        print(f"📍 Input path: {input_path}")
+        print(f"📍 Output path: {output_path}")
         
-        if is_distributed:
-            print("🔧 Attempting Spark configuration for distributed environment...")
-            try:
-                # Try YARN first
-                builder = SparkSession.builder \
-                    .appName("StructuredData") \
-                    .config("spark.sql.adaptive.enabled", "true") \
-                    .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
-                    .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-                    .config("spark.network.timeout", "800s") \
-                    .config("spark.executor.heartbeatInterval", "60s")
-                
-                spark = builder.getOrCreate()
-                print("✅ Successfully connected to YARN cluster")
-                
-            except Exception as yarn_error:
-                print(f"⚠️  YARN connection failed: {yarn_error}")
-                print("🔄 Falling back to local mode...")
-                is_distributed = False
-                
-        if not is_distributed:
-            print("🔧 Configuring Spark for local environment...")
-            builder = SparkSession.builder \
-                .appName("StructuredData") \
-                .master("local[*]") \
-                .config("spark.sql.adaptive.enabled", "true") \
-                .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
-                .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
-                .config("spark.sql.warehouse.dir", "/tmp/spark-warehouse") \
-                .config("spark.hadoop.fs.defaultFS", "file:///") \
-                .config("spark.sql.execution.arrow.pyspark.enabled", "false") \
-                .config("spark.driver.memory", "2g") \
-                .config("spark.executor.memory", "2g") \
-                .config("spark.network.timeout", "800s") \
-                .config("spark.executor.heartbeatInterval", "60s")
+        # Check environment
+        print("🔍 Checking environment...")
+        print(f"✅ JAVA_HOME: {os.environ.get('JAVA_HOME', 'Not set')}")
+        print(f"✅ SPARK_HOME: {os.environ.get('SPARK_HOME', 'Not set')}")
+        print(f"🐍 Python executable: {sys.executable}")
+        print(f"📁 Current working directory: {os.getcwd()}")
         
-        spark = builder.getOrCreate()
-        
-        # Set log level to reduce verbose output
-        spark.sparkContext.setLogLevel("WARN")
-        
-        print("✅ Spark session created successfully.")
-        print(f"🔍 Spark Master: {spark.sparkContext.master}")
-        print(f"🔍 Spark Version: {spark.version}")
-        print(f"🔍 Distributed mode: {is_distributed}")
-        
-    except Exception as e:
-        print(f"❗ Failed to connect to Spark: {e}")
-        import traceback
-        traceback.print_exc()
-        return
-
-    try:
-        print(f"📥 Reading data from: {input_path}")
-        print(f"🔍 Input path exists: {os.path.exists(input_path)}")
-        
+        # Check if input file exists
         if not os.path.exists(input_path):
-            print(f"❌ Input file does not exist: {input_path}")
-            return
+            raise FileNotFoundError(f"Input file not found: {input_path}")
         
-        data = spark.read.option('multiline', 'true').json(input_path)
+        # Initialize Spark session with proper configuration
+        print("🔧 Attempting Spark configuration for distributed environment...")
+        spark = SparkSession.builder \
+            .appName("StructuredData") \
+            .master("spark://spark-master:7077") \
+            .config("spark.sql.adaptive.enabled", "true") \
+            .config("spark.sql.adaptive.coalescePartitions.enabled", "true") \
+            .config("spark.serializer", "org.apache.spark.serializer.KryoSerializer") \
+            .config("spark.network.timeout", "300s") \
+            .config("spark.rpc.askTimeout", "300s") \
+            .config("spark.driver.memory", "512m") \
+            .config("spark.executor.memory", "512m") \
+            .config("spark.executor.cores", "1") \
+            .getOrCreate()
         
-        print("✅ Successfully read input file.")
-        print(f"📊 Number of records: {data.count()}")
-        print(f"� Schema: {data.printSchema()}")
+        print("✅ Spark session initialized successfully!")
+        
+        # Load raw data from JSON file
+        print("📖 Loading raw data from JSON...")
+        df = spark.read.json(input_path)
+        
+        print(f"📊 Loaded {df.count()} records")
+        print("📋 Schema:")
+        df.printSchema()
+        
+        # Perform data transformations
+        print("🔄 Performing data transformations...")
+        structured_df = df.select(
+            "name.common",
+            "name.official", 
+            "capital",
+            "region",
+            "subregion",
+            "population",
+            "area"
+        )
+        
+        print(f"📊 Structured data contains {structured_df.count()} records")
         
         # Create output directory if it doesn't exist
         os.makedirs(output_path, exist_ok=True)
         
-        print(f"�💾 Writing data to Parquet at: {output_path}")
-        data.write.mode('overwrite').parquet(output_path)
-        print("✅ Data written successfully.")
-
+        # Write structured data to Parquet format
+        print("💾 Writing structured data to Parquet format...")
+        structured_df.write.mode('overwrite').parquet(output_path)
+        
+        print("✅ Structured data written successfully!")
+        print(f"📍 Output location: {output_path}")
+        
+        return True
+        
     except Exception as e:
-        print(f"❗ Failed to process data: {e}")
+        print(f"❌ Error in structured data processing: {str(e)}")
         import traceback
         traceback.print_exc()
-
+        return False
     finally:
+        # Stop the Spark session
         if spark:
-            spark.stop()
-            print("✅ Spark session stopped.")
+            try:
+                spark.stop()
+                print("✅ Spark session stopped successfully")
+                # Give some time for cleanup
+                time.sleep(2)
+            except Exception as e:
+                print(f"⚠️ Warning: Error stopping Spark session: {e}")
 
 if __name__ == "__main__":
     if len(sys.argv) != 3:
         print("Usage: structured_data.py <input_path> <output_path>")
-        print(f"Received arguments: {sys.argv}")
         sys.exit(1)
     
     input_path = sys.argv[1]
     output_path = sys.argv[2]
     
-    print(f"🚀 Starting structured data processing...")
-    print(f"📍 Input path: {input_path}")
-    print(f"📍 Output path: {output_path}")
-    
-    # Check environment before proceeding
-    check_environment()
-    
-    structed_data(input_path, output_path)
+    success = structure_data(input_path, output_path)
+    if success:
+        print("✅ Structured data processing completed successfully!")
+        sys.exit(0)
+    else:
+        print("❌ Structured data processing failed!")
+        sys.exit(1)

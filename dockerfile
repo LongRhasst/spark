@@ -12,7 +12,5 @@ USER root
 RUN apt-get update && apt-get install -y build-essential default-jdk procps
 
 # Set SPARK_HOME and JAVA_HOME to point to correct locations
-ENV SPARK_HOME=/home/airflow/.local/lib/python3.10/site-packages/pyspark
+ENV SPARK_HOME=opt/bitnami/spark
 ENV JAVA_HOME=/usr/lib/jvm/default-java
-
-COPY dags /opt/airflow/dags

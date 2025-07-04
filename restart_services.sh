@@ -5,7 +5,7 @@
 echo "🔄 Restarting Spark Data Pipeline Services..."
 
 echo "📋 Step 1: Stopping all services..."
-docker-compose -f docker-compose.yml -f docker-compose.override.yml down
+docker compose -f docker-compose.yml -f docker-compose.override.yml down
 
 echo "📋 Step 2: Cleaning up containers and networks..."
 docker system prune -f
